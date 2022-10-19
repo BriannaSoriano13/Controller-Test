@@ -1,0 +1,62 @@
+package com.example.textanalyzer;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ControllerTest {
+
+    Controller controller;
+
+    @BeforeEach
+    void setUp() {
+        controller = new Controller();
+    }
+
+    @Test
+    void analyzeTexts1() { // test file error
+
+        try{
+            controller.analyzeTexts(5,"words-test-asdfasdfasdf.txt");
+            fail("faile to throw file exception");
+        }catch (Exception e){
+            System.out.println("successful catch file error!");
+        }
+
+    }
+
+    @Test
+    void analyzeTexts2() { // test range error
+        try{
+            String result = controller.analyzeTexts(5,"words-test.txt");
+
+            if(result.split("\n").length == 5){
+                System.out.println("range : ok");
+            }
+            else{
+                fail("range error!");
+            }
+        }catch (Exception e){
+            fail("exception error!");
+        }
+    }
+
+    @Test
+    void analyzeTexts3() { // check words "my" = 18 ?
+        try{
+            String result = controller.analyzeTexts(100,"words-test.txt");
+            String[] lines = result.split("\n");
+            for(String line : lines){
+                if(line.split("-")[1].contains("my") && Integer.valueOf(line.split("-")[0].replace(" ","")) == 18){
+                    System.out.println("Word 'my' = 18");
+                    return;
+                }
+            }
+            fail("Word 'my' != 18 !");
+
+        }catch (Exception e){
+            fail("exception error : " + e);
+        }
+    }
+}
